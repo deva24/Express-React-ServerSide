@@ -23,7 +23,8 @@
     "webpack-dev-server": "^3.10.3"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npx nodemon --ignore dist --exec npx babel-node server.js"
   },
   "author": "Devarshi Hazarika",
   "license": "ISC"

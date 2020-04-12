@@ -12,6 +12,9 @@ const compiler = webpack(options);
 const app = express();
 
 console.log("Compiling...");
+
+let context = {};
+
 compiler.run((err, stat) =>
 {
     if (err)
@@ -46,7 +49,7 @@ app.use((req, res, nxt) =>
 
     fs.stat(resolvedPath, (err, stat) =>
     {
-        if (err)
+        if (err || req.url == '/')
         {
             // if no file then send the usual index.html
             resolvedPath = path.resolve(__dirname, 'public/index.html');
@@ -56,12 +59,14 @@ app.use((req, res, nxt) =>
                 {
                     throw err;
                 }
+
+
                 console.log('Sending renderedFile');
                 res.setHeader('Content-Type', 'text/html');
-                let renderedReactApp = ReactDomServer.renderToString(<StarterApp/>);
-                data = data.replace('<div id="root"></div>', `<div id="root">${renderedReactApp}</div>`);
-                
-                console.log(`ReactApp '${renderedReactApp}'`);
+
+                let url = req.url;
+                let renderedReactApp = ReactDomServer.renderToString(<StarterApp url={url} context={context} />);
+                data = data.replace('<div id="root"></div>', `<div id="doot">${renderedReactApp}</div>`);
 
                 res.end(data);
             });
