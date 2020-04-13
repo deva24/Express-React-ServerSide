@@ -1,36 +1,50 @@
-import React, { useState } from "react";
-import { StaticRouter as Router, Redirect, Link, Switch, Route } from "react-router-dom"
+import React from "react";
+import { BrowserRouter as Router, Redirect, Link, Switch, Route } from "react-router-dom"
 
-function k(props)
+function k()
 {
-    let { context, url } = props;
-
-    console.log("Url : ", props.url);
-    console.log("Ctx : ", context)
-
-    return <Router context={{}} location={url}>
+    return <Router>
         Hello world
-        <ul>
-            <li><Link to="/home">HomeLink</Link></li>
-            <li><Link to="/about">AboutLink</Link></li>
-        </ul>
+        <Link to="/home">Home</Link>
+        <Link to="/about">About</Link>
         <Switch>
             <Route path='/' exact><Redirect to='/home' /></Route>
-            <Route path='/home'><div>HomeData</div></Route>
-            <Route path="/about"><div>AboutData</div></Route>
+            <Route path='/home' exact>Home</Route>
+            <Route path="/about">About</Route>
         </Switch>
     </Router>
 }
 
-function s()
+class Kapp extends React.Component
 {
-    let [tog, setTog] = useState(true);
+    constructor()
+    {
+        super();
 
-    return <div>
-        Hello World
-        <button onClick={() => { setTog(!tog) }}>Show/Hide</button>
-        {tog ? <div>Data</div> : null}
-        <div>{tog.toString()}</div>
-    </div>;
+        this.state = {
+            show: true
+        };
+    }
+
+    clicker = async () =>
+    {
+        await new Promise(res => setTimeout(() =>
+        {
+            res();
+        }, 1000))
+
+        this.setState({
+            show: !this.state.show
+        });
+    }
+
+    render()
+    {
+        return <div>
+            <button onClick={this.clicker}>Show / Hide</button>
+            {this.state.show ? <div>Show</div> : <div>Hide</div>}
+        </div>
+    }
 }
-export default k;
+
+export default Kapp;

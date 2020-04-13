@@ -22,12 +22,12 @@ compiler.run((err, stat) =>
     else
     {
         console.log("Compilation complete.");
-        app.listen(3001, (err) =>
+        app.listen(3002, (err) =>
         {
             if (err)
                 console.error("Error in express listen : " + err);
             else
-                console.log("Express listening on 3001");
+                console.log("Express listening on 3002");
         });
     }
 })
@@ -66,7 +66,7 @@ app.use((req, res, nxt) =>
 
                 let url = req.url;
                 let renderedReactApp = ReactDomServer.renderToString(<StarterApp url={url} context={context} />);
-                data = data.replace('<div id="root"></div>', `<div id="doot">${renderedReactApp}</div>`);
+                data = data.replace('<div id="root"></div>', `<div id="root">${renderedReactApp}</div>`);
 
                 res.end(data);
             });
